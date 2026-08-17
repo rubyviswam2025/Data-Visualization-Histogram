@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Class XII IP - Histogram Interactive Worksheet</title>
+<style>
+body{font-family:Arial;margin:0;background:#f4f7fb;color:#172033}header{background:#3157d5;color:white;padding:28px}main{max-width:1000px;margin:auto;padding:15px}.card{background:white;padding:20px;margin:15px 0;border-radius:14px;box-shadow:0 2px 10px #0001}.q{border:1px solid #ddd;padding:14px;margin:12px 0;border-radius:9px}button{background:#3157d5;color:white;border:0;padding:9px 14px;border-radius:7px;margin:4px;cursor:pointer}input,select{padding:8px;max-width:100%;font-size:15px}pre{background:#101828;color:white;padding:12px;overflow:auto}.ok{color:green;font-weight:bold}.bad{color:#c62828;font-weight:bold}.score{font-size:24px;font-weight:bold}.option{display:block;padding:6px}.small{color:#667085;font-size:14px;margin-top:4px}
+</style>
+<style>
+.teacher-footer{margin-top:30px;padding:18px 12px;text-align:center;background:#3157d5;color:white;border-radius:12px;font-size:14px}
+.teacher-footer strong{font-size:16px}
+</style>
+</head><body>
+<header><h1>Class XII Informatics Practices</h1><h2>Interactive Worksheet: Data Visualization – Histogram</h2><p>Drawing • Saving • Customising • Interpretation • Suitable Plots</p></header><main>
+<div class="card"><b>Instructions:</b> 50 questions in 5 sections. Each section contains 10 questions. Check answers for immediate feedback.</div>
+
+<div class="card"><h2>A. MCQs – 10 Questions</h2><div id="mcq"></div><button onclick="mcq()">Check MCQs</button><div id="mr" class="score"></div></div>
+<div class="card"><h2>B. Code Fill in the Blanks – 10 Questions</h2><div id="fill"></div><button onclick="fill()">Check Code Answers</button><div id="fr" class="score"></div></div>
+<div class="card"><h2>C. Matching – 10 Questions</h2><div id="match"></div><button onclick="match()">Check Matching</button><div id="mar" class="score"></div></div>
+<div class="card"><h2>D. Code Error Correction – 10 Questions</h2><div id="err"></div><button onclick="err()">Check Corrections</button><div id="er" class="score"></div></div>
+<div class="card"><h2>E. Select the Suitable Plot – 10 Questions</h2><div id="plot"></div><button onclick="plot()">Check Answers</button><div id="pr" class="score"></div></div>
+<div class="card"><h2>Final Result</h2><div id="total" class="score">0 / 50</div><p id="msg">Complete the activities.</p><button onclick="window.print()">Print / Save as PDF</button></div>
+</main>
+<script>
+let S={m:0,f:0,a:0,e:0,p:0};function norm(x){return x.replace(/\s/g,'').toLowerCase()}function feedback(id, ok, answer, explanation){
+  const el=document.getElementById(id);
+  if(el) el.innerHTML=ok
+    ? '<span class="ok">✓ Correct! 🎉</span>'
+    : '<span class="bad">✗ Incorrect.</span><br><b>Correct answer:</b> '+answer+
+      (explanation?'<br><span class="small">'+explanation+'</span>':'');
+}
+function upd(){let t=Object.values(S).reduce((a,b)=>a+b,0);document.getElementById('total').textContent=t+' / 50';document.getElementById('msg').textContent=t>=40?'Excellent! 🎉':t>=30?'Very Good! 👍':t>=20?'Needs Practice 📚':'Relearn and Try Again 🔄'}
+const Q=[['Which library is commonly used for histograms?',['Matplotlib','Tkinter','CSV','Pandas'],0],['Which function draws a histogram?',['plt.bar()','plt.hist()','plt.plot()','plt.pie()'],1],['What does bins specify?',['Colours','Intervals','Title','Line width'],1],['Which function labels x-axis?',['xlabel()','ylabel()','title()','legend()'],0],['Which function labels y-axis?',['xlabel()','ylabel()','title()','axis()'],1],['Which function saves a figure?',['show()','savefig()','save()','store()'],1],['A histogram mainly shows:',['Numerical distribution','Text','Database rows','Categories only'],0],['Best plot for category comparison:',['Histogram','Bar chart','Scatter plot','Line chart'],1],['Best plot for two numerical variables relationship:',['Pie','Bar','Scatter','Histogram'],2],['Tallest histogram bar represents:',['Lowest frequency','Highest frequency','No data','Average'],1]];
+document.getElementById('mcq').innerHTML=Q.map((q,i)=>'<div class=q><b>'+(i+1)+'. '+q[0]+'</b>'+q[1].map((o,j)=>'<label class=option><input type=radio name=m'+i+' value='+j+'> '+String.fromCharCode(65+j)+'. '+o+'</label>').join('')+'<div id="mf'+i+'"></div></div>').join('');
+function mcq(){
+ S.m=0;
+ Q.forEach((q,i)=>{
+   let x=document.querySelector('input[name=m'+i+']:checked');
+   let ok=x && +x.value===q[2];
+   if(ok)S.m++;
+   feedback('mf'+i,ok,q[1][q[2]],'The correct option is the one shown above.');
+ });
+ document.getElementById('mr').textContent='Score: '+S.m+'/10';upd()
+}
+
+const F=[['plt.______(marks,bins=5)','hist'],['plt.______("Marks")','xlabel'],['plt.______("Frequency")','ylabel'],['plt.______("Distribution")','title'],['plt.______("marks.png")','savefig'],['plt.______()','show'],['plt.hist(marks,_____=5)','bins'],['plt.hist(marks,bins=5,_____=\'black\')','edgecolor'],['emp.______','shape'],['emp.______','size']];
+document.getElementById('fill').innerHTML=F.map((q,i)=>'<div class=q><b>'+(i+1)+'.</b><pre>'+q[0]+'</pre><input id=f'+i+' placeholder="Answer"><div id="ff'+i+'"></div></div>').join('');
+function fill(){
+ S.f=0; F.forEach((q,i)=>{
+   let v=document.getElementById('f'+i).value.trim().toLowerCase(),ok=v===q[1].toLowerCase();
+   if(ok)S.f++;
+   feedback('ff'+i,ok,q[1],'This is the required function or attribute.');
+ });
+ document.getElementById('fr').textContent='Score: '+S.f+'/10';upd()
+}
+
+const M=[['plt.hist()','Creates a histogram'],['plt.savefig()','Saves a figure'],['plt.xlabel()','Labels x-axis'],['plt.ylabel()','Labels y-axis'],['plt.title()','Adds title'],['bins','Groups numerical values'],['edgecolor','Outlines bars'],['shape','Rows and columns'],['size','Total elements'],['scatter plot','Relationship between two numerical variables']];
+document.getElementById('match').innerHTML=M.map((q,i)=>'<div class=q><b>'+q[0]+'</b> <select id=a'+i+'><option value="">Choose</option>'+M.map(x=>'<option>'+x[1]+'</option>').join('')+'</select><div id="maf'+i+'"></div></div>').join('');
+function match(){
+ S.a=0; M.forEach((q,i)=>{
+   let ok=document.getElementById('a'+i).value===q[1]; if(ok)S.a++;
+   feedback('maf'+i,ok,q[1],'This is the correct match.');
+ });
+ document.getElementById('mar').textContent='Score: '+S.a+'/10';upd()
+}
+
+const E=[['plt.hist(marks,bin=5)','plt.hist(marks,bins=5)'],['plt.xlable("Marks")','plt.xlabel("Marks")'],['plt.ylable("Frequency")','plt.ylabel("Frequency")'],['plt.titel("Marks")','plt.title("Marks")'],['plt.save("marks.png")','plt.savefig("marks.png")'],['plt.hist(marks,bins=5,edgecolour="black")','plt.hist(marks,bins=5,edgecolor="black")'],['plt.xlabels("Marks")','plt.xlabel("Marks")'],['plt.ylabels("Frequency")','plt.ylabel("Frequency")'],['plt.hst(marks,bins=5)','plt.hist(marks,bins=5)'],['plt.savfig("marks.png")','plt.savefig("marks.png")']];
+document.getElementById('err').innerHTML=E.map((q,i)=>'<div class=q><b>'+(i+1)+'. Correct:</b><pre>'+q[0]+'</pre><input id=e'+i+' style="width:90%" placeholder="Correct statement"><div id="ef'+i+'"></div></div>').join('');
+function err(){
+ S.e=0; E.forEach((q,i)=>{
+   let ok=norm(document.getElementById('e'+i).value)===norm(q[1]); if(ok)S.e++;
+   feedback('ef'+i,ok,q[1],'Correct the function or parameter name.');
+ });
+ document.getElementById('er').textContent='Score: '+S.e+'/10';upd()
+}
+
+const P=[['Distribution of students’ marks','Histogram'],['Compare four school houses','Bar chart'],['Monthly temperature over a year','Line chart'],['Relationship between study hours and marks','Scatter plot'],['Percentage share of transport modes','Pie chart'],['Distribution of student heights','Histogram'],['Compare sales of products','Bar chart'],['Population growth over years','Line chart'],['Advertising expenditure vs sales','Scatter plot'],['Department contribution to expenditure','Pie chart']];
+document.getElementById('plot').innerHTML=P.map((q,i)=>'<div class=q><b>'+(i+1)+'. '+q[0]+'</b><br><select id=p'+i+'><option>Choose</option>'+['Histogram','Bar chart','Line chart','Scatter plot','Pie chart'].map(x=>'<option>'+x+'</option>').join('')+'</select><div id="pf'+i+'"></div></div>').join('');
+function plot(){
+ S.p=0; P.forEach((q,i)=>{
+   let ok=document.getElementById('p'+i).value===q[1]; if(ok)S.p++;
+   feedback('pf'+i,ok,q[1],'This plot is suitable for the situation described.');
+ });
+ document.getElementById('pr').textContent='Score: '+S.p+'/10';upd()
+}upd();
+</script>
+<footer class="teacher-footer">
+<strong>Prepared by Ms. Ruby Viswam</strong><br>
+PGT Computer Science | PM SHRI Kendriya Vidyalaya No. 2 Naval Base Kochi<br>
+© 2026 | For Educational Use
+</footer>
+</body></html>
